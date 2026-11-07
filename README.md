@@ -1,4 +1,4 @@
-# RepoLens# RepoLens
+# RepoLens
 
 ### Understand any GitHub repository with AI
 
