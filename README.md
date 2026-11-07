@@ -2,82 +2,45 @@
 
 ### Understand any GitHub repository with AI
 
-RepoLens is a full-stack, AI-powered codebase intelligence platform
-that uses Retrieval-Augmented Generation (RAG) to help developers
-explore and understand GitHub repositories.
+RepoLens aims to help developers explore public GitHub repositories using retrieval-augmented generation. The current project is a foundation: only the health endpoint and a minimal frontend are implemented. Repository ingestion, retrieval, chat, authentication and citations are planned.
 
-> Status: In active development
+## Stack
 
-## The Problem
+Next.js, TypeScript and Tailwind CSS; Python and FastAPI; PostgreSQL, Supabase and pgvector; Sentence Transformers; a configurable LLM provider; GitHub REST API.
 
-Understanding an unfamiliar codebase can be time-consuming,
-especially when navigating multiple files, functions, and modules.
+## Local setup
 
-## Our Solution
+Requirements: Python 3.12+, Node.js 20.9+ and pnpm. PostgreSQL with pgvector is only needed to apply the optional initial migration; no database credentials are needed to run the applications.
 
-RepoLens aims to let developers import public GitHub repositories,
-ask natural-language questions, and receive answers grounded
-in the repository's source code.
+From the repository root, copy `.env.example` to `.env` if you want to change defaults. Never commit secrets. The backend reads the root `.env` and environment variables; `CORS_ORIGINS` is a comma-separated list. The frontend skeleton does not yet consume the API URL.
 
-## Planned Features
+Backend (commands shown for PowerShell):
+```powershell
+cd backend
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements-dev.txt
+python -m uvicorn app.main:app --reload
+```
+Open http://localhost:8000/health or http://localhost:8000/docs. In another terminal, from `backend/`, run `python -m pytest -q`.
 
-- Import and index public GitHub repositories
-- Ask natural-language questions about codebases
-- Semantic code search using vector embeddings
-- AI-generated explanations with source citations
-- File viewer with relevant source references
-- Repository dashboard and query history
+Frontend, in a separate terminal:
+```powershell
+cd frontend
+pnpm install --frozen-lockfile
+pnpm dev
+```
+Open http://localhost:3000. Run `pnpm build` for a production build.
 
-## Tech Stack
+The initial SQL migration and its limitations are described in [docs/DATABASE.md](docs/DATABASE.md). Do not expose the database to untrusted clients until authorization is implemented.
 
-| Component | Technology |
-|-----------|------------|
-| Frontend | Next.js, TypeScript, Tailwind CSS |
-| Backend | Python, FastAPI |
-| Database | PostgreSQL, Supabase |
-| Vector Search | pgvector |
-| Embeddings | Sentence Transformers |
-| AI | Configurable LLM API |
-| Integration | GitHub REST API |
+## Documentation
 
-## Architecture
+- [Architecture and team responsibilities](docs/ARCHITECTURE.md)
+- [Database design](docs/DATABASE.md)
+- [Proposed shared contracts](docs/CONTRACTS.md)
+- [Development log](docs/DEVELOPMENT_LOG.md)
 
-GitHub Repository
-      |
-Repository Ingestion
-      |
-Code Chunking
-      |
-Embedding Generation
-      |
-Vector Database
-      |
-Semantic Retrieval
-      |
-LLM Answer Generation
-      |
-Web Interface + Source Citations
+## Contributors and license
 
-## Getting Started
-
-Installation and local development instructions will be
-added as the application is implemented.
-
-## Roadmap
-
-- [ ] Repository ingestion
-- [ ] Embedding generation and vector storage
-- [ ] RAG question-answering backend
-- [ ] Frontend dashboard
-- [ ] Source citations and file viewer
-- [ ] Authentication and query history
-- [ ] Testing and deployment
-
-## Contributors
-
-Developed by a team of Computer Science students
-at Manipal Institute of Technology.
-
-## License
-
-To be finalized by the project contributors.
+Developed by Computer Science students at Manipal Institute of Technology. License to be finalized by the contributors.
